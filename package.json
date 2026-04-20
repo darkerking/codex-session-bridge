@@ -1,0 +1,207 @@
+{
+  "name": "codex-session-bridge",
+  "displayName": "Codex Session Bridge",
+  "description": "Local-first Codex session recovery and visibility sync tooling.",
+  "version": "1.0.0",
+  "publisher": "local",
+  "private": true,
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:codexSessionBridge.sessionsView",
+    "onCommand:codexSessionBridge.refreshSessions",
+    "onCommand:codexSessionBridge.searchSessions",
+    "onCommand:codexSessionBridge.clearSessionSearch",
+    "onCommand:codexSessionBridge.configureSessionFilters",
+    "onCommand:codexSessionBridge.clearSessionFilters",
+    "onCommand:codexSessionBridge.previewSession",
+    "onCommand:codexSessionBridge.restoreSession",
+    "onCommand:codexSessionBridge.experimentalSyncVisibility",
+    "onCommand:codexSessionBridge.rollbackLastMutation",
+    "onCommand:codexSessionBridge.rollbackSpecificMutation",
+    "onCommand:codexSessionBridge.viewMutationHistory"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codexSessionBridge",
+          "title": "Session Bridge",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "codexSessionBridge": [
+        {
+          "id": "codexSessionBridge.sessionsView",
+          "name": "Sessions"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "codexSessionBridge.refreshSessions",
+        "title": "Refresh Sessions",
+        "category": "Codex Session Bridge",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codexSessionBridge.searchSessions",
+        "title": "Search Sessions",
+        "category": "Codex Session Bridge",
+        "icon": "$(search)"
+      },
+      {
+        "command": "codexSessionBridge.clearSessionSearch",
+        "title": "Clear Session Search",
+        "category": "Codex Session Bridge",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "codexSessionBridge.configureSessionFilters",
+        "title": "Configure Session Filters",
+        "category": "Codex Session Bridge",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "codexSessionBridge.clearSessionFilters",
+        "title": "Clear Session Filters",
+        "category": "Codex Session Bridge",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "codexSessionBridge.previewSession",
+        "title": "Preview Session",
+        "category": "Codex Session Bridge",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "codexSessionBridge.restoreSession",
+        "title": "Restore to Codex",
+        "category": "Codex Session Bridge",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "codexSessionBridge.experimentalSyncVisibility",
+        "title": "Sync to Official History (Experimental)",
+        "category": "Codex Session Bridge",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "codexSessionBridge.rollbackLastMutation",
+        "title": "Rollback Last Mutation",
+        "category": "Codex Session Bridge",
+        "icon": "$(discard)"
+      },
+      {
+        "command": "codexSessionBridge.rollbackSpecificMutation",
+        "title": "Rollback Selected Mutation",
+        "category": "Codex Session Bridge",
+        "icon": "$(history)"
+      },
+      {
+        "command": "codexSessionBridge.viewMutationHistory",
+        "title": "View Mutation History",
+        "category": "Codex Session Bridge",
+        "icon": "$(book)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "codexSessionBridge.refreshSessions",
+          "when": "view == codexSessionBridge.sessionsView",
+          "group": "navigation"
+        },
+        {
+          "command": "codexSessionBridge.searchSessions",
+          "when": "view == codexSessionBridge.sessionsView",
+          "group": "navigation"
+        },
+        {
+          "command": "codexSessionBridge.clearSessionSearch",
+          "when": "view == codexSessionBridge.sessionsView",
+          "group": "navigation"
+        },
+        {
+          "command": "codexSessionBridge.configureSessionFilters",
+          "when": "view == codexSessionBridge.sessionsView",
+          "group": "navigation"
+        },
+        {
+          "command": "codexSessionBridge.clearSessionFilters",
+          "when": "view == codexSessionBridge.sessionsView",
+          "group": "navigation"
+        },
+        {
+          "command": "codexSessionBridge.viewMutationHistory",
+          "when": "view == codexSessionBridge.sessionsView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "codexSessionBridge.previewSession",
+          "when": "view == codexSessionBridge.sessionsView && viewItem == session",
+          "group": "inline"
+        },
+        {
+          "command": "codexSessionBridge.restoreSession",
+          "when": "view == codexSessionBridge.sessionsView && viewItem == session",
+          "group": "inline"
+        },
+        {
+          "command": "codexSessionBridge.experimentalSyncVisibility",
+          "when": "view == codexSessionBridge.sessionsView && viewItem == session",
+          "group": "inline"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "codexSessionBridge.refreshSessions"
+        },
+        {
+          "command": "codexSessionBridge.searchSessions"
+        },
+        {
+          "command": "codexSessionBridge.clearSessionSearch"
+        },
+        {
+          "command": "codexSessionBridge.previewSession"
+        },
+        {
+          "command": "codexSessionBridge.restoreSession"
+        },
+        {
+          "command": "codexSessionBridge.experimentalSyncVisibility"
+        },
+        {
+          "command": "codexSessionBridge.rollbackLastMutation"
+        },
+        {
+          "command": "codexSessionBridge.rollbackSpecificMutation"
+        },
+        {
+          "command": "codexSessionBridge.viewMutationHistory"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "check": "tsc --noEmit -p ./",
+    "smoke": "node ./scripts/smoke.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/vscode": "^1.96.0",
+    "typescript": "^5.7.2"
+  }
+}
