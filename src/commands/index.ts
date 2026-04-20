@@ -128,22 +128,29 @@ export function registerCommands(
         const target = resolveSession(provider, input);
         if (!target) {
           await vscode.window.showWarningMessage(
-            "No restorable session is available yet."
+            "No local session is available to open."
           );
           return;
         }
 
-        const result = await service.restoreSessionToCodex(context, target);
-        if (result.attachedToCodex) {
-          await vscode.window.showInformationMessage(
-            `Recovery package attached to Codex: ${target.title ?? target.id}`
+        try {
+          const opened = await service.openSessionInCodex(target);
+          if (opened) {
+            await vscode.window.showInformationMessage(
+              `Opened local Codex thread: ${target.title ?? target.id}`
+            );
+            return;
+          }
+
+          await vscode.window.showWarningMessage(
+            `VS Code did not confirm opening the local Codex thread: ${target.title ?? target.id}`
           );
           return;
+        } catch (error) {
+          await vscode.window.showWarningMessage(
+            error instanceof Error ? error.message : String(error)
+          );
         }
-
-        await vscode.window.showWarningMessage(
-          `Recovery package was generated but could not be attached automatically. Opened file: ${result.recoveryPackage.markdownPath}`
-        );
       }
     )
   );

@@ -1,8 +1,8 @@
 {
     "name":  "codex-session-bridge",
     "displayName":  "Codex Session Bridge",
-    "description":  "Local-first Codex session recovery and visibility sync tooling.",
-    "version":  "1.0.1",
+    "description":  "Local-first Codex session discovery and native local-thread reopening for VS Code.",
+    "version":  "2.0.0",
     "publisher":  "gongwei",
     "engines":  {
                     "vscode":  "^1.96.0"
@@ -83,7 +83,7 @@
                                          },
                                          {
                                              "command":  "codexSessionBridge.restoreSession",
-                                             "title":  "Restore to Codex",
+                                             "title":  "Open in Codex",
                                              "category":  "Codex Session Bridge",
                                              "icon":  "$(arrow-up)"
                                          },

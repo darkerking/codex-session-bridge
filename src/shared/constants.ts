@@ -24,6 +24,7 @@ export const STATE_DB_WAL_NAME = "state_5.sqlite-wal";
 export const CODEX_COMMANDS = {
   openSidebar: "chatgpt.openSidebar",
   newPanel: "chatgpt.newCodexPanel",
-  newChat: "chatgpt.newChat",
-  addFileToThread: "chatgpt.addFileToThread"
+  newChat: "chatgpt.newChat"
 } as const;
+
+export const OFFICIAL_CODEX_EXTENSION_ID = "openai.chatgpt";

@@ -18,7 +18,6 @@ import {
 import { createOperationId } from "../shared/utils";
 import type {
   MutationRecord,
-  RecoveryPackage,
   SessionRecord
 } from "../shared/types";
 
@@ -41,33 +40,14 @@ export class SessionBridgeService {
     return this.sessionIndex.getById(id);
   }
 
-  public async buildRecoveryPackage(
-    context: vscode.ExtensionContext,
-    session: SessionRecord
-  ): Promise<RecoveryPackage> {
-    return this.recoveryPackageBuilder.build(context, session);
-  }
-
   public async buildSessionPreview(session: SessionRecord): Promise<string> {
     return this.recoveryPackageBuilder.buildPreviewMarkdown(session);
   }
 
-  public async restoreSessionToCodex(
-    context: vscode.ExtensionContext,
+  public async openSessionInCodex(
     session: SessionRecord
-  ): Promise<{
-    recoveryPackage: RecoveryPackage;
-    attachedToCodex: boolean;
-  }> {
-    const recoveryPackage = await this.buildRecoveryPackage(context, session);
-    const attachedToCodex = await this.codexCommands.restoreRecoveryFile(
-      recoveryPackage.markdownPath
-    );
-
-    return {
-      recoveryPackage,
-      attachedToCodex
-    };
+  ): Promise<boolean> {
+    return this.codexCommands.openLocalThread(session.id);
   }
 
   public async syncSessionVisibility(

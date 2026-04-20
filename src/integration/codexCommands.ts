@@ -1,10 +1,16 @@
 import * as vscode from "vscode";
-import { CODEX_COMMANDS } from "../shared/constants";
+import {
+  CODEX_COMMANDS,
+  OFFICIAL_CODEX_EXTENSION_ID
+} from "../shared/constants";
+import { OfficialCodexHealth } from "./officialCodexHealth";
 
 export class CodexCommands {
-  public async restoreRecoveryFile(markdownPath: string): Promise<boolean> {
+  private readonly officialCodexHealth = new OfficialCodexHealth();
+
+  public async openLocalThread(sessionId: string): Promise<boolean> {
     const commands = new Set(await vscode.commands.getCommands(true));
-    const fileUri = vscode.Uri.file(markdownPath);
+    await this.officialCodexHealth.assertCanOpenLocalThread();
 
     if (commands.has(CODEX_COMMANDS.openSidebar)) {
       await vscode.commands.executeCommand(CODEX_COMMANDS.openSidebar);
@@ -12,28 +18,12 @@ export class CodexCommands {
       await vscode.commands.executeCommand(CODEX_COMMANDS.newPanel);
     }
 
-    await vscode.window.showTextDocument(fileUri, {
-      preview: false,
-      preserveFocus: true
+    const routeUri = vscode.Uri.from({
+      scheme: "vscode",
+      authority: OFFICIAL_CODEX_EXTENSION_ID,
+      path: `/local/${sessionId}`
     });
 
-    if (!commands.has(CODEX_COMMANDS.addFileToThread)) {
-      return false;
-    }
-
-    try {
-      await vscode.commands.executeCommand(
-        CODEX_COMMANDS.addFileToThread,
-        fileUri
-      );
-      return true;
-    } catch {
-      try {
-        await vscode.commands.executeCommand(CODEX_COMMANDS.addFileToThread);
-        return true;
-      } catch {
-        return false;
-      }
-    }
+    return vscode.env.openExternal(routeUri);
   }
 }
