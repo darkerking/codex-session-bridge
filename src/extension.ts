@@ -5,10 +5,13 @@ import { SessionsViewProvider } from "./ui/panelProvider";
 
 export function activate(context: vscode.ExtensionContext): void {
   const sessionBridgeService = new SessionBridgeService();
-  const sessionsViewProvider = new SessionsViewProvider(sessionBridgeService);
+  const sessionsViewProvider = new SessionsViewProvider(
+    context.extensionUri,
+    sessionBridgeService
+  );
 
   context.subscriptions.push(
-    vscode.window.registerTreeDataProvider(
+    vscode.window.registerWebviewViewProvider(
       "codexSessionBridge.sessionsView",
       sessionsViewProvider
     )

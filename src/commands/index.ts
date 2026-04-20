@@ -7,15 +7,12 @@ import type {
   SessionRecord,
   SessionTimeFilter
 } from "../shared/types";
-import { SessionTreeItem, SessionsViewProvider } from "../ui/panelProvider";
+import { SessionsViewProvider } from "../ui/panelProvider";
 
 function resolveSession(
   provider: SessionsViewProvider,
-  input?: SessionRecord | SessionTreeItem
+  input?: SessionRecord
 ): SessionRecord | undefined {
-  if (input instanceof SessionTreeItem) {
-    return input.session;
-  }
   return input ?? provider.getFirstSession();
 }
 
@@ -101,7 +98,7 @@ export function registerCommands(
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "codexSessionBridge.previewSession",
-      async (input?: SessionRecord | SessionTreeItem) => {
+      async (input?: SessionRecord) => {
         const target = resolveSession(provider, input);
         if (!target) {
           await vscode.window.showWarningMessage(
@@ -127,7 +124,7 @@ export function registerCommands(
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "codexSessionBridge.restoreSession",
-      async (input?: SessionRecord | SessionTreeItem) => {
+      async (input?: SessionRecord) => {
         const target = resolveSession(provider, input);
         if (!target) {
           await vscode.window.showWarningMessage(
@@ -154,7 +151,7 @@ export function registerCommands(
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "codexSessionBridge.experimentalSyncVisibility",
-      async (input?: SessionRecord | SessionTreeItem) => {
+      async (input?: SessionRecord) => {
         const target = resolveSession(provider, input);
         if (!target) {
           await vscode.window.showWarningMessage(

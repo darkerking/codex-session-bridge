@@ -36,12 +36,13 @@
                                                                 ]
                                             },
                         "views":  {
-                                      "codexSessionBridge":  [
-                                                                 {
-                                                                     "id":  "codexSessionBridge.sessionsView",
-                                                                     "name":  "Sessions"
-                                                                 }
-                                                             ]
+                        "codexSessionBridge":  [
+                                                     {
+                                                         "id":  "codexSessionBridge.sessionsView",
+                                                         "name":  "Sessions",
+                                                         "type": "webview"
+                                                     }
+                                                 ]
                                   },
                         "commands":  [
                                          {
